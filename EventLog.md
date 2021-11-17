@@ -8,3 +8,5 @@ Report to be written.\
 (17.11.2021) Added comments and some minor bug fixes.\
 (17.11.2021) Complete source code is uploaded.\
 Report to be written.
+(17.11.2021) Theoritical part of report done. \
+Pending analysis of test cases and Bibliography\Citations\References
