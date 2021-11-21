@@ -9,4 +9,6 @@ Report to be written.\
 (17.11.2021) Complete source code is uploaded.\
 Report to be written. \
 (17.11.2021) Theoritical part of report done. \
-Pending analysis of test cases and Bibliography\Citations\References
+Pending analysis of test cases and Bibliography\Citations\References \
+(21.11.2021) Complete report uploaded. \
+Completed ReadMe. 
