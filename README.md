@@ -1,10 +1,10 @@
 # Multi-Splay-Trees
-CS201 - Data Structures and Algorithms Project
+CS201 - Data Structures and Algorithms Project\
 
 Team Members:
-Aman Pankaj Adatia (2020CSB1154)
-Aman Kumar (2020CSB1153)
-Ojassvi Kumar (2020CSB1187)
+\tAman Pankaj Adatia (2020CSB1154)
+\tAman Kumar (2020CSB1153)
+\tOjassvi Kumar (2020CSB1187)
 
 Teaching Assistant:
 Sravanthi Chede
