@@ -64,31 +64,8 @@ class multiSplayTree{
         void switchPath(Node *cur); //function to adjust the depths and mindepths values of the nodes
         void expose(Node *cur); //function to bring the current node to the root of the whole tree
         void explore(Node *cur); //auxiliary function to help display the whole tree
-        Node *refParent(Node *cur, int num); //function to return the first child whose midepth value is greater than the depth value 
+        Node *refParent(Node *cur, int num); //function to return the first child whose mindepth value is greater than the depth value 
 };
-
-void multiSplayTree::explore(multiSplayTree::Node *cur){
-    //if current node is a null pointer
-    if(!cur) return;
-    //printing the parent of the current node if any
-    cout<<"Parent of "<<cur->key<<" = ";
-    //if the current node has a parent 
-    if(cur->parent){
-        cout<<cur->parent->key;
-    }
-    //if the current node does not have a parent
-    else{
-        cout<<"NULL";
-    }
-    //checking if the node is a root
-    if(cur->isRoot) cout<<", "<<cur->key<<" is a Root";
-    cout<<endl;
-    //calling for the left subtree
-    explore(cur->left);
-    //calling for the right subtree
-    explore(cur->right);
-    return;
-}
 
 multiSplayTree::Node *multiSplayTree::treeFor(size_t low, size_t high, size_t depth, bool isRoot){
     //terminating condition
@@ -370,11 +347,34 @@ void tester(string &type, int size){
     return;
 }
 
+void multiSplayTree::explore(multiSplayTree::Node *cur){
+    //if current node is a null pointer
+    if(!cur) return;
+    //printing the parent of the current node if any
+    cout<<"Parent of "<<cur->key<<" = ";
+    //if the current node has a parent 
+    if(cur->parent){
+        cout<<cur->parent->key;
+    }
+    //if the current node does not have a parent
+    else{
+        cout<<"NULL";
+    }
+    //checking if the node is a root
+    if(cur->isRoot) cout<<", "<<cur->key<<" is a Root";
+    cout<<endl;
+    //calling for the left subtree
+    explore(cur->left);
+    //calling for the right subtree
+    explore(cur->right);
+    return;
+}
+
 int main(){
     cout<<"Multi-Splay Trees:"<<endl;
     //creating the string to define the access type
-    string access = "Sequential"; //setting the access type to 'sequential'
     //calling the tester function for different test cases
+    string access = "Sequential"; //setting the access type to 'sequential'
     tester(access,30); 
     tester(access,3000);
     tester(access,300000);
