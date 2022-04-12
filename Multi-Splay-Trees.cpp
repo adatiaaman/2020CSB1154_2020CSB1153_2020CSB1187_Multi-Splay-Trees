@@ -1,5 +1,4 @@
-//Author: Ojassvi Kumar(2020csb1187), Aman Kumar(2020csb1153), Aman Pankaj Adatia(2020csb1154)
-//Created in November 2021
+//Author: Ojassvi Kumar(2020csb1187), Aman Pankaj Adatia(2020csb1154), Aman Kumar(2020csb1153)
 //Multi-Splay Tree implimentation
 
 #include<bits/stdc++.h>
