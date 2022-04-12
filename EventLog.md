@@ -14,4 +14,5 @@ Report to be written.
 
 (21.11.2021) \
 Complete report uploaded. \
-Completed ReadMe. 
+Completed ReadMe. \
+The Project is complete.
