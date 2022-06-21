@@ -21,7 +21,7 @@ Functions used for various operations in our implementation:
 **switchPath()** - function to adjust the depths and minDepths values of the nodes. \
 **refParent()** - function to return the first child whose minDepth value is greater than the depth value. \
 **expose()** - function to bring the current node to the root of the whole tree. \
-**query()** - function to access an element in the tree (multi-splay)
+**query()** - function to access an element in the tree (multi-splay).
 
 ## Algorithms
 
