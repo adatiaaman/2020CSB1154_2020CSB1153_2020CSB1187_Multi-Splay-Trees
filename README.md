@@ -1,9 +1,9 @@
 # Multi-Splay Tree
 
 **Team Members:**\
+&emsp;Ojassvi Kumar (2020CSB1187) \
 &emsp;Aman Pankaj Adatia (2020CSB1154) \
-&emsp;Aman Kumar (2020CSB1153) \
-&emsp;Ojassvi Kumar (2020CSB1187) 
+&emsp;Aman Kumar (2020CSB1153) 
 
 **Project Details:** 
 * **Name:** Implemetation and Analysis of Multi-Splay Trees 
