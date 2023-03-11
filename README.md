@@ -56,5 +56,6 @@ Initially, the program is tested against three types of data access: sequential,
 ## Screenshots
 
 A sample execution result of the program.
+
 ![Program Screenshot](https://raw.githubusercontent.com/OptimalKnight/Images/main/MultiSplayTrees/MultiSplayTree_Sample%20Execution%20Result.jpeg?token=GHSAT0AAAAAAB7WSU2TO743USPSLXSYDCZOZAMRLDQ)
 
