@@ -484,17 +484,20 @@ int main()
     tester(access, 30);
     tester(access, 3000);
     tester(access, 300000);
+    cout << endl;
 
     // Reverse access
     access = "Reverse";
     tester(access, 30);
     tester(access, 3000);
     tester(access, 300000);
+    cout << endl;
 
     // Random access
     access = "Random ";
     tester(access, 30);
     tester(access, 3000);
     tester(access, 300000);
+    cout << endl;
     return 0;
 }
