@@ -1,224 +1,283 @@
-//Author: Ojassvi Kumar(2020csb1187), Aman Kumar(2020csb1153), Aman Pankaj Adatia(2020csb1154)
-//Created in November 2021
-//Multi-Splay Tree implimentation
-
-#include<bits/stdc++.h>
-#include<chrono>
+#include <bits/stdc++.h>
+#include <chrono>
 using namespace std;
 using namespace std::chrono;
 
-//data structure for calculating running time
-class timer{
-    public:
-        void start(void){ //function to store the start time
-            flag_one = high_resolution_clock::now(); return;
-        }
-        void stop(void){ //functioin to store the ending time
-            flag_two = high_resolution_clock::now(); return;
-        }
-        void timeElapsed(void){ //function to display the total time taken
-            auto duration = duration_cast<nanoseconds>(flag_two - flag_one);
-            cout<<setprecision(2)<<fixed<<duration.count()/1000;
-        }
+// Data structure for calculating the running time
+class timer
+{
+public:
+    // Function to store the start time
+    void start(void)
+    {
+        flag_one = high_resolution_clock::now();
+        return;
+    }
 
-    private:
-        //variables to store the data
-        std::chrono::_V2::system_clock::time_point flag_one,flag_two;
+    // Functioin to store the ending time
+    void stop(void)
+    {
+        flag_two = high_resolution_clock::now();
+        return;
+    }
+
+    // Function to display the total time taken
+    void timeElapsed(void)
+    {
+        auto duration = duration_cast<nanoseconds>(flag_two - flag_one);
+        cout << setprecision(2) << fixed << duration.count() / 1000;
+    }
+
+private:
+    // Variables to store the starting and ending time
+    std::chrono::_V2::system_clock::time_point flag_one, flag_two;
 };
 
+// Data structure for the Multi-Splay tree
+class multiSplayTree
+{
+public:
+    // Constructor to avoid any implicit type casting
+    multiSplayTree(const int size);
 
-//data structure for the multisplay tree
-class multiSplayTree{
-    public:
-        //constructor which would avoid any implicit type casting
-        multiSplayTree(const int size);
-        //destructor
-        ~multiSplayTree(void);
+    // Destructor to free the memory
+    ~multiSplayTree(void);
 
-        bool query(size_t key); //function to search an element in the tree
-        void display(void){ //function to display the whole tree
-            explore(root);
-            return;
+    // Function to search an element in the tree
+    bool query(size_t key);
+
+    // Function to display the whole tree
+    void display(void)
+    {
+        explore(root);
+        return;
+    }
+
+private:
+    // Stucture for the tree node
+    struct Node
+    {
+        // Variables to store the required information
+        bool isRoot;
+        size_t key, depth, minDepth;
+        Node *left, *right, *parent;
+
+        // Initialising the node variables
+        Node(size_t key, size_t depth = 0, size_t minDepth = 0, bool isRoot = 0)
+        {
+            this->key = key;
+            left = right = parent = 0;
+            this->isRoot = isRoot;
+            this->depth = depth;
+            this->minDepth = minDepth;
         }
-    
-    private:
-        struct Node{ //stucture for the tree node
-            //variables to store the required information
-            size_t key, depth, minDepth;
-            bool isRoot;
-            Node *left, *right, *parent;
-            //initialising the node values
-            Node(size_t key, size_t depth = 0, size_t minDepth = 0, bool isRoot = 0){
-                this->key = key;
-                left = right = parent = 0;
-                this->isRoot = isRoot;
-                this->depth = depth;
-                this->minDepth = minDepth;
-            }
-        };
+    };
 
-        Node *root; //root of the whole multisplay tree
-        Node *treeFor(size_t low, size_t high, size_t depth, bool isRoot); //function to create the whole tree
-        void rotate(Node *cur); //function to perform the rotation operation 
-        void splay(Node *cur, Node *top); //function to perform the standard splaying operation
-        void switchPath(Node *cur); //function to adjust the depths and mindepths values of the nodes
-        void expose(Node *cur); //function to bring the current node to the root of the whole tree
-        void explore(Node *cur); //auxiliary function to help display the whole tree
-        Node *refParent(Node *cur, int num); //function to return the first child whose mindepth value is greater than the depth value 
+    Node *root;                                                        // Root of the whole multisplay tree
+    Node *treeFor(size_t low, size_t high, size_t depth, bool isRoot); // Function to create the whole tree
+    void rotate(Node *cur);                                            // Function to perform the rotation operation
+    void splay(Node *cur, Node *top);                                  // Function to perform the standard splay operation
+    void switchPath(Node *cur);                                        // Function to adjust the depth and min-depth values of the nodes
+    void expose(Node *cur);                                            // Function to bring the current node to the root of the whole tree
+    void explore(Node *cur);                                           // Auxiliary function to help display the whole tree
+    Node *refParent(Node *cur, int num);                               // fFnction to return the first child whose min-depth value is greater than the depth value
 };
 
-multiSplayTree::Node *multiSplayTree::treeFor(size_t low, size_t high, size_t depth, bool isRoot){
-    //terminating condition
-    if(low == high)  return nullptr;
-    size_t mid = low + (high - low)/2;
-    //allocating memory for the new node and initialising its values
-    Node *tmp = new Node {mid, depth, depth, isRoot};
-    //calling for the left subtree
+multiSplayTree::Node *multiSplayTree::treeFor(size_t low, size_t high, size_t depth, bool isRoot)
+{
+    // Terminating condition
+    if (low == high)
+        return nullptr;
+    size_t mid = low + (high - low) / 2;
+
+    // Allocating memory for the new node and initialising its values
+    Node *tmp = new Node{mid, depth, depth, isRoot};
+
+    // Calling recursion for the left subtree
     tmp->left = treeFor(low, mid, depth + 1, false);
-    //calling for the right subtree
-    tmp->right = treeFor(mid + 1, high, depth + 1, true);  
-    if(tmp->left) tmp->left->parent = tmp;
-    if(tmp->right) tmp->right->parent = tmp;
+    // Calling recursion for the right subtree
+    tmp->right = treeFor(mid + 1, high, depth + 1, true);
+
+    if (tmp->left)
+    {
+        tmp->left->parent = tmp;
+    }
+    if (tmp->right)
+    {
+        tmp->right->parent = tmp;
+    }
     return tmp;
 }
 
-multiSplayTree::multiSplayTree(const int size){
-    root = treeFor(0, size, 0,  true);
-    return;
+multiSplayTree::multiSplayTree(const int size)
+{
+    root = treeFor(0, size, 0, true);
 }
 
-multiSplayTree::~multiSplayTree(void){
-    //iterating while root is not equal to nullptr
-    while(root != nullptr){
-        //if root does not have left child
-        if(root->left == nullptr){
+multiSplayTree::~multiSplayTree(void)
+{
+    // Iterating while root is not equal to nullptr
+    while (root != nullptr)
+    {
+        // Checking whether the root has a left child or not
+        if (root->left == nullptr)
+        {
             Node *next = root->right;
-            delete root; //why to delete root?
+            delete root;
             root = next;
         }
-        //if root have a left child
-        else{
+        else
+        {
             Node *child = root->left;
             root->left = child->right;
             child->right = root;
             root = child;
         }
     }
-    return;
 }
 
-void multiSplayTree::rotate(Node *cur){
-    //pointer to store the parent of the current node
+void multiSplayTree::rotate(Node *cur)
+{
+    // Pointer to store the parent of the current node
     Node *tmp = cur->parent;
-    //if the parent is a root then the current node will become the root after the rotation
-    if(tmp->isRoot){
+
+    // If the parent is a root then the current node will become the root after the rotation
+    if (tmp->isRoot)
+    {
         tmp->isRoot = false;
         cur->isRoot = true;
     }
-    if(root == tmp) root = cur;
-    //if there is a grandparent then perform the rotation
-    if(tmp->parent){
-        int cnt =  (tmp->parent->right == tmp);
-        //if tmp is the left child of its parent
-        if(cnt == 0){
+    if (root == tmp)
+    {
+        root = cur;
+    }
+
+    // If there is a grandparent then perform the rotation
+    if (tmp->parent)
+    {
+        int cnt = (tmp->parent->right == tmp);
+        // Checking whether tmp is the left or thr right child of its parent
+        if (cnt == 0)
+        {
             tmp->parent->left = cur;
         }
-        //if tmp is the right child of its parent
-        else{
+        else
+        {
             tmp->parent->right = cur;
         }
     }
-    //update the current node's parent 
+
+    // Updating the current node's parent
     cur->parent = tmp->parent;
     int cnt = (tmp->right == cur);
-    //if current node is left child of tmp
-    if(cnt == 0){
-        //performing the rotation
+
+    // Checking whether the current node is the left or the right child of its parent
+    if (cnt == 0)
+    {
+        // Performing the rotation
         tmp->left = cur->right;
-        if(cur->right){
+        if (cur->right)
+        {
             cur->right->parent = tmp;
         }
         cur->right = tmp;
         tmp->parent = cur;
     }
-    //if current node is right child of tmp
-    else{
-        //performing the rotation
+    else
+    {
+        // Performing the rotation
         tmp->right = cur->left;
-        if(cur->left){
+        if (cur->left)
+        {
             cur->left->parent = tmp;
         }
         cur->left = tmp;
         tmp->parent = cur;
     }
-    //updating the mindepths of the current node and tmp
+
+    // Updating the mindepths of the current node and tmp
     cur->minDepth = tmp->minDepth;
     tmp->minDepth = tmp->depth;
-    if(tmp->left){ 
+    if (tmp->left)
+    {
         tmp->minDepth = min(tmp->minDepth, tmp->left->minDepth);
     }
-    if(tmp->right){
+    if (tmp->right)
+    {
         tmp->minDepth = min(tmp->minDepth, tmp->right->minDepth);
     }
-    return;
 }
 
-void multiSplayTree::splay(Node *cur, Node *top = 0){
-    //rotate until current node is either a root or current node's parent is equal to top
-    while(!(cur->isRoot || cur->parent == top)){
+void multiSplayTree::splay(Node *cur, Node *top = 0)
+{
+    // Rotate until current node is either a root or current node's parent is equal to top
+    while (!(cur->isRoot || cur->parent == top))
+    {
         Node *tmp = cur->parent;
-        //if tmp is neither a root not its parent is equal to top
-        if(!(tmp->isRoot || tmp->parent == top)){
+        // If tmp is neither a root not its parent is equal to top
+        if (!(tmp->isRoot || tmp->parent == top))
+        {
             Node *tmp2 = tmp->parent;
-            if((tmp2->left == tmp && tmp->left == cur) || (tmp2->right == tmp && tmp->right == cur)){
+            if ((tmp2->left == tmp && tmp->left == cur) || (tmp2->right == tmp && tmp->right == cur))
+            {
                 rotate(tmp);
             }
-            else{
+            else
+            {
                 rotate(cur);
             }
         }
-        //if tmp is either a root or its parent is equal to top
+
+        // If tmp is either a root or its parent is equal to top
         rotate(cur);
     }
-    return;
 }
 
-multiSplayTree::Node *multiSplayTree::refParent(multiSplayTree::Node *cur, int cnt){
-    //pointer to store the child
+multiSplayTree::Node *multiSplayTree::refParent(multiSplayTree::Node *cur, int cnt)
+{
+    // Pointer to store the child
     Node *tmp = NULL;
-    if(cnt == 0){
+    if (cnt == 0)
+    {
         tmp = cur->left;
     }
-    else{
+    else
+    {
         tmp = cur->right;
     }
-    //tmp is equal to left child of current node if cnt is equal to 0 and vice versa
-    while(1){
-        if(cnt == 0){
-            //if mindepth of right child is less than the depth of current node
-            if(tmp->right && tmp->right->minDepth < cur->depth){
+
+    // If cnt is equal to 0, then tmp is the left child of the current node and vice-versa
+    while (1)
+    {
+        if (cnt == 0)
+        {
+            // Checking whether the min-depth of right child is less than the depth of current node or not
+            if (tmp->right && tmp->right->minDepth < cur->depth)
+            {
                 tmp = tmp->right;
             }
-            //if midepth of left child is less than the depth of the current node
-            else if(tmp->left && tmp->left->minDepth < cur->depth){
+            else if (tmp->left && tmp->left->minDepth < cur->depth)
+            {
                 tmp = tmp->left;
             }
-            //breaking condition
-            else{
+            else
+            {
                 break;
             }
         }
-        else{
-            //if midepth of left child is less than the depth of the current node
-            if(tmp->left && tmp->left->minDepth < cur->depth){
+        else
+        {
+            // Checking whether the min-depth of left child is less than the depth of the current node
+            if (tmp->left && tmp->left->minDepth < cur->depth)
+            {
                 tmp = tmp->left;
             }
-            //if mindepth of right child is less than the depth of current node
-            else if(tmp->right && tmp->right->minDepth < cur->depth){
+            else if (tmp->right && tmp->right->minDepth < cur->depth)
+            {
                 tmp = tmp->right;
             }
-            //breaking condition
-            else{
+            else
+            {
                 break;
             }
         }
@@ -226,166 +285,216 @@ multiSplayTree::Node *multiSplayTree::refParent(multiSplayTree::Node *cur, int c
     return tmp;
 }
 
-void multiSplayTree::switchPath(Node *cur){
-    //if current node has a left child
-    if(cur->left){
-        //if the mindepth of the left child is greater than the depth of the current node
-        if(cur->left->minDepth > cur->depth){
+void multiSplayTree::switchPath(Node *cur)
+{
+    // If current node has a left child
+    if (cur->left)
+    {
+        // If the mindepth of the left child is greater than the depth of the current node
+        if (cur->left->minDepth > cur->depth)
+        {
             cur->left->isRoot = !(cur->left->isRoot);
         }
-        else{
+        else
+        {
             Node *tmp = refParent(cur, 0);
             splay(tmp, cur);
-            if(tmp->right){
+            if (tmp->right)
+            {
                 tmp->right->isRoot = !(tmp->right->isRoot);
             }
         }
     }
-    //if the current node has a right child
-    if(cur->right){
-        //if the mindepth of the right child is greater than the depth of the current node
-        if(cur->right->minDepth > cur->depth){
+
+    // If the current node has a right child
+    if (cur->right)
+    {
+        // If the mindepth of the right child is greater than the depth of the current node
+        if (cur->right->minDepth > cur->depth)
+        {
             cur->right->isRoot = !(cur->right->isRoot);
         }
-        else{
+        else
+        {
             Node *tmp2 = refParent(cur, 1);
             splay(tmp2, cur);
-            if(tmp2->left){
+            if (tmp2->left)
+            {
                 tmp2->left->isRoot = !(tmp2->left->isRoot);
             }
         }
     }
 }
 
-void multiSplayTree::expose(Node *cur){
-    //pointer to store the current node
+void multiSplayTree::expose(Node *cur)
+{
+    // Pointer to store the current node
     Node *tmp = cur;
-    //iterating while tmp has a parent
-    while(tmp->parent){
+
+    // Iterating while tmp has a parent
+    while (tmp->parent)
+    {
         Node *tmp2 = tmp->parent;
-        //if tmp is a root
-        if(tmp->isRoot){
+        // If tmp is a root
+        if (tmp->isRoot)
+        {
             splay(tmp2);
             switchPath(tmp2);
         }
         tmp = tmp2;
     }
     splay(cur);
-    return;
 }
 
-bool multiSplayTree::query(size_t key){ 
-    //pointers to store the current and previous nodes
+bool multiSplayTree::query(size_t key)
+{
+    // Pointers to store the current and previous nodes
     Node *curr = root;
     Node *prev = root;
-    //iterate until we either find the key or find nullptr
-    while(curr && curr->key != key){
+
+    // Iterating until we either find a key or the nullptr
+    while (curr && curr->key != key)
+    {
         prev = curr;
-        if(key < curr->key){
+        if (key < curr->key)
+        {
             curr = curr->left;
         }
-        else{
+        else
+        {
             curr = curr->right;
         }
     }
-    //if we found nullptr
-    if(!curr){
+
+    // If we found a nullptr
+    if (!curr)
+    {
         expose(prev);
         return false;
     }
-    //if we found the key
+
+    // If we found a key
     expose(curr);
     return true;
 }
-//function to run different test cases for the tree
-void tester(string &type, int size){
-    timer clk; //making a variable of the class timer
-    clk.start(); 
-    multiSplayTree tre(size); //creating a tree of the specified type
+
+// Function to run different test cases for the tree
+void tester(string &type, int size)
+{
+    // Declaring a variable of the class timer
+    timer clk; 
+    clk.start();
+
+    // Constructing a Multi-Splay tree of the specified type
+    multiSplayTree tre(size); 
     clk.stop();
-    cout<<"Access type: "<<type<<"\t\tSize: "<<size<<endl<<"\t\tBuild Time: ";
+
+    cout << "Access type: " << type << "\t\tSize: " << size << endl << "\t\tBuild Time: ";
     clk.timeElapsed();
-    cout<<"ns"<<endl<<"\t\t";
-    //if the access sequence is sequential
-    if(type == "Sequential"){
+    cout << "ns" << endl << "\t\t";
+
+    // Checking the access type
+    if (type == "Sequential")
+    {
         clk.start();
-        for(int i=0;i<size;i++){
+        for (int i = 0; i < size; i++)
+        {
             tre.query(i);
         }
         clk.stop();
-        cout<<"Query Time: ";
+        cout << "Query Time: ";
         clk.timeElapsed();
-        cout<<"ns"<<endl;
+        cout << "ns" << endl;
     }
-    //if the access sequence is reversed
-    else if(type == "Reverse"){
+    else if (type == "Reverse")
+    {
         clk.start();
-        for(int i=size-1;i>=0;i--){
+        for (int i = size - 1; i >= 0; i--)
+        {
             tre.query(i);
         }
         clk.stop();
-        cout<<"Query Time: ";
+        cout << "Query Time: ";
         clk.timeElapsed();
-        cout<<"ns"<<endl;
+        cout << "ns" << endl;
     }
-    //if the access sequence is random
-    else{
+    else
+    {
         vector<int> sequence;
-        for(int i=0;i<size;i++){
+        for (int i = 0; i < size; i++)
+        {
             sequence.push_back(i);
         }
-        random_shuffle(sequence.begin(),sequence.end()); //to generate a random shuffle of the given array
+
+        // To generate a random shuffle of the given array
+        random_shuffle(sequence.begin(), sequence.end()); 
         clk.start();
-        for(int i=0;i<size;i++){ 
+        for (int i = 0; i < size; i++)
+        {
             tre.query(sequence[i]);
         }
         clk.stop();
-        cout<<"Query Time: ";
+        cout << "Query Time: ";
         clk.timeElapsed();
-        cout<<"ns"<<endl;
+        cout << "ns" << endl;
     }
-    return;
 }
 
-void multiSplayTree::explore(multiSplayTree::Node *cur){
-    //if current node is a null pointer
-    if(!cur) return;
-    //printing the parent of the current node if any
-    cout<<"Parent of "<<cur->key<<" = ";
-    //if the current node has a parent 
-    if(cur->parent){
-        cout<<cur->parent->key;
+void multiSplayTree::explore(multiSplayTree::Node *cur)
+{
+    // If current node is a null pointer
+    if (!cur)
+    {
+        return;
     }
-    //if the current node does not have a parent
-    else{
-        cout<<"NULL";
+
+    // Displaying the parent of the current node if any
+    cout << "Parent of " << cur->key << " = ";
+
+    // Checking whether the current node has a parent or not
+    if (cur->parent)
+    {
+        cout << cur->parent->key;
     }
-    //checking if the node is a root
-    if(cur->isRoot) cout<<", "<<cur->key<<" is a Root";
-    cout<<endl;
-    //calling for the left subtree
+    else
+    {
+        cout << "NULL";
+    }
+
+    // Checking if the node is a root
+    if (cur->isRoot)
+    {
+        cout << ", " << cur->key << " is a Root";
+    }
+    cout << endl;
+
+    // Calling recursion for the left subtree
     explore(cur->left);
-    //calling for the right subtree
+
+    // Calling recursion for the right subtree
     explore(cur->right);
-    return;
 }
 
-int main(){
-    cout<<"Multi-Splay Trees:"<<endl;
-    //creating the string to define the access type
-    //calling the tester function for different test cases
-    string access = "Sequential"; //setting the access type to 'sequential'
-    tester(access,30); 
-    tester(access,3000);
-    tester(access,300000);
-    access = "Reverse"; //setting the access sequence to 'reverse' 
-    tester(access,30);
-    tester(access,3000);
-    tester(access,300000);
-    access = "Random "; //setting the access sequence to 'random'
-    tester(access,30);
-    tester(access,3000);
-    tester(access,300000);
+int main()
+{
+    cout << "Multi-Splay Trees:" << endl;
+    // constructing the string to define the access type and calling the tester function for different test cases
+    // Sequential access
+    string access = "Sequential";
+    tester(access, 30);
+    tester(access, 3000);
+    tester(access, 300000);
 
+    // Reverse access
+    access = "Reverse";
+    tester(access, 30);
+    tester(access, 3000);
+    tester(access, 300000);
+
+    // Random access
+    access = "Random ";
+    tester(access, 30);
+    tester(access, 3000);
+    tester(access, 300000);
     return 0;
 }
