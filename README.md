@@ -58,6 +58,3 @@ Initially, the program is tested against three types of data access: sequential,
 A sample execution result of the program.
 
 ![Program Screenshot](/Images/MultiSplayTree_Sample%20Execution%20Result.jpeg)
-
-## Future Scope
-The project report can be further improved.
