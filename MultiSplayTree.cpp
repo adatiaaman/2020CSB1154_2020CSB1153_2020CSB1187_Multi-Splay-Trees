@@ -352,7 +352,7 @@ bool multiSplayTree::query(size_t key)
     Node *curr = root;
     Node *prev = root;
 
-    // Iterating until we either find a key or the nullptr
+    // Iterating until we either find the key or a nullptr
     while (curr && curr->key != key)
     {
         prev = curr;
@@ -373,7 +373,7 @@ bool multiSplayTree::query(size_t key)
         return false;
     }
 
-    // If we found a key
+    // If we found the key
     expose(curr);
     return true;
 }
